@@ -221,6 +221,56 @@
       white-space:nowrap;
     }
 
+    .btnPop{
+      height:48px;
+      padding:0 18px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.16);
+      background:
+        radial-gradient(18px 18px at 25% 20%, rgba(255,255,255,.38), transparent 55%),
+        linear-gradient(135deg, rgba(124,58,237,1), rgba(34,211,238,1), rgba(96,165,250,1));
+      color:#050718;
+      font-weight:800;
+      letter-spacing:.2px;
+      cursor:pointer;
+      transition: transform .15s ease, filter .15s ease, box-shadow .15s ease;
+      box-shadow:
+        0 18px 45px rgba(124,58,237,.22),
+        0 18px 55px rgba(34,211,238,.12);
+      position:relative;
+      isolation:isolate;
+    }
+
+    .btnPop::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      border-radius: 16px;
+      background: radial-gradient(240px 80px at 40% 10%, rgba(255,255,255,.35), transparent 60%);
+      opacity:.55;
+      z-index:-1;
+      filter: blur(10px);
+    }
+
+    .btnPop:hover{
+      transform: translateY(-1px);
+      filter: brightness(1.05);
+      box-shadow:
+        0 22px 60px rgba(124,58,237,.26),
+        0 22px 70px rgba(34,211,238,.16);
+    }
+
+    .btnPop:active{transform: translateY(0px); filter: brightness(.98)}
+
+    @media (prefers-reduced-motion: no-preference){
+      .btnPop{animation: popPulse 2.6s ease-in-out infinite;}
+    }
+
+    @keyframes popPulse{
+      0%,100%{transform: translateY(0);}
+      50%{transform: translateY(-1px);}
+    }
+
     .btn:hover{transform: translateY(-1px); filter: brightness(1.03)}
     .btn:active{transform: translateY(0px); filter: brightness(.98)}
 
@@ -482,6 +532,7 @@
                 <input class="input" id="email" name="email" type="email" placeholder="you@domain.com" autocomplete="email" inputmode="email" aria-label="Email address" />
                 <button class="btn" type="submit">Request Early Access</button>
               </form>
+              <button class="btnPop" type="button" id="joinWaitlist">Join the Waitlist</button>
             </div>
             <div class="msg" id="msg" role="status" aria-live="polite"></div>
             <p class="fine">Early access list only. No spam.</p>
@@ -590,6 +641,7 @@
     const form = document.getElementById('waitlist');
     const email = document.getElementById('email');
     const msg = document.getElementById('msg');
+    const joinWaitlist = document.getElementById('joinWaitlist');
 
     function setMsg(text, tone){
       msg.textContent = text;
@@ -624,6 +676,11 @@
       form.querySelector('button').textContent = 'Requested';
       form.querySelector('button').disabled = true;
       email.disabled = true;
+    });
+
+    joinWaitlist.addEventListener('click', () => {
+      form.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      setTimeout(() => email.focus(), 250);
     });
   </script>
 </body>
